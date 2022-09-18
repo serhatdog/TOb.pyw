@@ -26,7 +26,8 @@ class TOb:
                 except:
                     try:
                         remove(self.path+self.files[i])
-                    except: with open(self.path+'ERROR.log', 'w') as f: f.write("TOb.pyw got stuck when deleting files/folders!")
+                    except: 
+                        with open(self.path+'ERROR.log', 'w') as f: f.write("TOb.pyw got stuck when deleting files/folders!")
         remove(self.path+self.tempfile)
 
     def auto(self, time_option, value):
