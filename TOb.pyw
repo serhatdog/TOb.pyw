@@ -1,5 +1,6 @@
-from os import path, remove, listdir, removedirs, system
+from os import path, remove, listdir
 from time import sleep
+import shutil
 
 class TOb:
 
@@ -15,17 +16,16 @@ class TOb:
     def clear(self): 
         with open(self.path+self.tempfile, 'w'): pass
         for i in range(len(self.files)):
-            time = path.getatime(self.path+self.tempfile) - path.getatime(self.path+self.files[i])
+            time = path.getctime(self.path+self.tempfile) - path.getctime(self.path+self.files[i])
             if time > self.seconds:
                 try:
-                    remove(self.path+self.files[i])
+                    shutil.rmtree(self.path+self.files[i])
                 except:
-                    folder = listdir(self.path+self.files[i])
-                    for j in range(len(folder)):
-                        remove(self.path+self.files[i]+'\\'+folder[j])
                     try:
-                        removedirs(self.path+self.files[i])
-                    except: system('pause')
+                        remove(self.path+self.files[i])
+                    except:
+                        with open(self.path+'ERROR.log', 'w') as f:
+                            f.write("TOb.pyw got stuck!")
         remove(self.path+self.tempfile)
 
     def auto(self, time_option, value):
