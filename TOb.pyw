@@ -4,12 +4,15 @@ import shutil
 
 class TOb:
 
-    def __init__(self, path, settings) -> None:
+    def __init__(self, path, settings, noremove) -> None:
         self.path = path
         self.tempfile = 'tempfile0000000.txt'
 
         self.files = listdir(path)
-        self.files.remove('desktop.ini')
+        for filename in noremove:
+            try:
+                self.files.remove(noremove)
+            except: pass
 
         self.seconds = (((settings['d'] * 24) * 60) * 60) + ((settings['h'] * 60) * 60) + settings['m'] * 60 + settings['s']
 
@@ -23,9 +26,7 @@ class TOb:
                 except:
                     try:
                         remove(self.path+self.files[i])
-                    except:
-                        with open(self.path+'ERROR.log', 'w') as f:
-                            f.write("TOb.pyw got stuck!")
+                    except: with open(self.path+'ERROR.log', 'w') as f: f.write("TOb.pyw got stuck when deleting files/folders!")
         remove(self.path+self.tempfile)
 
     def auto(self, time_option, value):
@@ -36,3 +37,6 @@ class TOb:
         while True:
             self.clear()
             sleep(value)
+
+#Author: Serhat Dogan
+#https://github.com/serhatdog/TOb.pyw/
